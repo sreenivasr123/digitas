@@ -30,7 +30,6 @@ export default function ShowProducts(props) {
         setData(response);
         loading(false)
     }
-    console.log(getData, 'getData')
 
 
     const NextBtn = (event) => {
@@ -68,11 +67,13 @@ export default function ShowProducts(props) {
                         </div>
                         <div className="grid-thumbnails">
                             {gridData.photo.map((list) =>
+
                                 <div className="card" key={list.id}>
-                                    <img loading="lazy" alt="image" src={`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_m.jpg`} />
+                                    <Link to={`/slideshow/${list.id}`}>
+                                        <img loading="lazy" alt="image" src={`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_m.jpg`} />
+                                    </Link>
                                     <button className="save-as" onClick={() => saveAs(`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_z.jpg`, 'download.jpg')} >Download Original</button>
                                 </div>
-
                             )}
                         </div>
                         <div className="pagination">

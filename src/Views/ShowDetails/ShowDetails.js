@@ -8,9 +8,11 @@ import Container from '../../Components/Container/Container';
 import { saveAs } from "file-saver";
 import HashLoader from "react-spinners/HashLoader";
 import { Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 export default function ShowDetails() {
     const [isloading, loading] = useState(true)
     const [getData, setData] = useState([]);
+    const productid = useParams();
 
     const settings = {
         dots: false,
@@ -19,7 +21,8 @@ export default function ShowDetails() {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        initialSlide: 2
+        initialSlide: 2,
+        fade: true,
     };
     useEffect(async () => {
         fetchData()
@@ -35,35 +38,52 @@ export default function ShowDetails() {
         setData(response.photo);
         loading(false)
     }
-    console.log(getData, 'getData')
+
+    let obj = getData.find(obj => obj.id == productid.id);
     return (
         <div className="ShowDetails">
             <Container>
 
                 {isloading ? <div className="Loader"> <HashLoader color={"#f0483e"} margin={2} size={150} /> </div> :
                     <>
-                     <div className="show-slideshow">
+                        <div className="show-slideshow">
                             <Link to="/" >Show Grid</Link>
 
                         </div>
-                        <Slider {...settings}>
-                            {getData.map((list) =>
-                                <>
-                                    <div className="card">
-                                        <img loading="lazy" alt="image" src={`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_z.jpg`} />
+                        {obj ?
+                            <>
+                                <div className="individual-card">
+                                    <img loading="lazy" alt="image" src={`https://live.staticflickr.com/${obj.server}/${obj.id}_${obj.secret}_z.jpg`} />
+                                </div>
+                                <div className="info">
+                                    <div className="l-data">
+                                        <h2>{obj.title}</h2>
+                                        <p>by <a href="https://www.flickr.com/groups/macintoshe">{obj.ownername}</a></p>
                                     </div>
-                                    <div className="info">
-                                        <div className="l-data">
-                                            <h2>{list.title}</h2>
-                                            <p>by <a href="https://www.flickr.com/groups/macintoshe">{list.ownername}</a></p>
-                                        </div>
-                                        <div className="r-data">
-                                            <button className="save-as" onClick={() => saveAs(`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_z.jpg`, 'download.jpg')} >Download Original</button>
-                                        </div>
+                                    <div className="r-data">
+                                        <button className="save-as" onClick={() => saveAs(`https://live.staticflickr.com/${obj.server}/${obj.id}_${obj.secret}_z.jpg`, 'download.jpg')} >Download Original</button>
                                     </div>
-                                </>
-                            )}
-                        </Slider>
+                                </div>
+                            </> :
+                            <Slider {...settings}>
+                                {getData.map((list) =>
+                                    <>
+                                        <div className="card">
+                                            <img loading="lazy" alt="image" src={`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_z.jpg`} />
+                                        </div>
+                                        <div className="info">
+                                            <div className="l-data">
+                                                <h2>{list.title}</h2>
+                                                <p>by <a href="https://www.flickr.com/groups/macintoshe">{list.ownername}</a></p>
+                                            </div>
+                                            <div className="r-data">
+                                                <button className="save-as" onClick={() => saveAs(`https://live.staticflickr.com/${list.server}/${list.id}_${list.secret}_z.jpg`, 'download.jpg')} >Download Original</button>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </Slider>
+                        }
                     </>
                 }
             </Container>

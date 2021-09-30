@@ -5,6 +5,9 @@
         width: 100%;
         display: flex;
         justify-content: flex-end;
+        @media only screen and (max-width: 567px) {
+            justify-content: center;
+        }
         a{
             background-color: #f0483e;
             text-transform: capitalize;
@@ -50,7 +53,16 @@
             border-radius: 5px;
             background-color: #fff;
             cursor: pointer;
-
+            @media only screen and (max-width: 567px) {
+                width: 60%;
+                margin:0 auto 32px;
+            }
+            @media screen and (max-width: 768px) and (min-width: 568px) {
+                width: 45%;
+            }
+            @media screen and (max-width: 1024px) and (min-width: 769px) {
+                width: 32%;
+            }
             &:hover {
                 .save-as {
                     display: flex;

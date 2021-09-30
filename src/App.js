@@ -18,6 +18,9 @@ function App() {
           <Route exact path="/slideshow">
             <ShowDetails />
           </Route>
+          <Route exact path="/slideshow/:id">
+            <ShowDetails />
+          </Route>
         </Switch>
       </Router>
     </div>
